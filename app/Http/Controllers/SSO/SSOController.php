@@ -18,8 +18,8 @@ class SSOController extends Controller
         $request->session()->put('state', $state = Str::random(40));
 
         $query = http_build_query([
-            'client_id' => '9b36d9cd-8241-489f-938f-47d3c61392d5',
-            'redirect_uri' => 'http://127.0.0.1:5000/callback',
+            'client_id' => '9be08ef1-7142-495a-bdca-249e407dd40e',
+            'redirect_uri' => 'http://127.0.0.1:3000/sso/auth/callback',
             'response_type' => 'code',
             'scope' => 'view-user',
             'state' => $state
@@ -41,11 +41,13 @@ class SSOController extends Controller
 
         $response = Http::asForm()->post('https://bds.babelprov.go.id/oauth/token', [
             'grant_type' => 'authorization_code',
-            'client_id' => '9b36d9cd-8241-489f-938f-47d3c61392d5',
-            'client_secret' => 'vE4NjkFpWAMYRTFZOAfqcGm4SFzIFUKP1J96nV8X',
-            'redirect_uri' => 'http://127.0.0.1:5000/callback',
+            'client_id' => '9be08ef1-7142-495a-bdca-249e407dd40e',
+            'client_secret' => 'UmhAT8Fspvs39BYS3hi2sELvUteDcIe8SIa8iSb8',
+            'redirect_uri' => 'http://127.0.0.1:3000/sso/auth/callback',
             'code' => $request->code,
         ]);
+
+        dd($response->json());
 
         $request->session()->put($response->json());
 
@@ -63,6 +65,7 @@ class SSOController extends Controller
         ])->get('https://bds.babelprov.go.id/api/user-sso');
 
         $userArray = $response->json();
+        // dd($userArray);
 
         try {
             $email = $userArray['email'];
