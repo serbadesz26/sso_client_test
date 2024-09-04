@@ -25,7 +25,7 @@ class SSOController extends Controller
             'state' => $state
         ]);
 
-        return redirect('https://bds.babelprov.go.id/oauth/authorize?' . $query);
+        return redirect('http://127.0.0.1:8000/oauth/authorize?' . $query);
     }
 
     public function getCallback(Request $request)
@@ -39,7 +39,7 @@ class SSOController extends Controller
             'Invalid state value.'
         );
 
-        $response = Http::asForm()->post('https://bds.babelprov.go.id/oauth/token', [
+        $response = Http::asForm()->post('http://127.0.0.1:8000/oauth/token', [
             'grant_type' => 'authorization_code',
             'client_id' => '9be08ef1-7142-495a-bdca-249e407dd40e',
             'client_secret' => 'UmhAT8Fspvs39BYS3hi2sELvUteDcIe8SIa8iSb8',
@@ -62,7 +62,7 @@ class SSOController extends Controller
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $access_token,
 
-        ])->get('https://bds.babelprov.go.id/api/user-sso');
+        ])->get('http://127.0.0.1:8000/api/user-sso');
 
         $userArray = $response->json();
         // dd($userArray);
